@@ -1,30 +1,29 @@
-const mongoHost = process.env.AMBULANCE_API_MONGODB_HOST
-const mongoPort = process.env.AMBULANCE_API_MONGODB_PORT
+const mongoHost = process.env.AMBULANCE_API_MONGODB_HOST || 'mongodb';
+const mongoPort = process.env.AMBULANCE_API_MONGODB_PORT || '27017';
 
-const mongoUser = ''
-const mongoPassword = ''
+const mongoUser = process.env.AMBULANCE_API_MONGODB_USERNAME;
+const mongoPassword = process.env.AMBULANCE_API_MONGODB_PASSWORD;
 
-const database = process.env.AMBULANCE_API_MONGODB_DATABASE
-const collection = process.env.AMBULANCE_API_MONGODB_COLLECTION
+const database = process.env.AMBULANCE_API_MONGODB_DATABASE;
+const collection = process.env.AMBULANCE_API_MONGODB_COLLECTION;
 
 const retrySeconds = parseInt(process.env.RETRY_CONNECTION_SECONDS || "5") || 5;
 
-console.log('mongoUser' + mongoUser)
-console.log('mongoPassword' + mongoPassword)
+console.log('mongoUser' + mongoUser);
+console.log('mongoPassword' + mongoPassword);
 
-// try to connect to mongoDB until it is not available
 let connection;
 while(true) {
     try {
-        // connection = Mongo(`mongodb://${mongoHost}:${mongoPort}`);
-        connection = Mongo(`mongodb://localhost:27017`);
+        connection = Mongo(`mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`);
         break;
     } catch (exception) {
         print(`Cannot connect to mongoDB: ${exception}`);
-        print(`Will retry after ${retrySeconds} seconds`)
+        print(`Will retry after ${retrySeconds} seconds`);
         sleep(retrySeconds * 1000);
     }
 }
+
 
 // if database and collection exists, exit with success - already initialized
 const databases = connection.getDBNames()
