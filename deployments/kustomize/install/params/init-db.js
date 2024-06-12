@@ -13,16 +13,22 @@ console.log('mongoUser' + mongoUser);
 console.log('mongoPassword' + mongoPassword);
 
 let connection;
-while(true) {
+while (true) {
     try {
-        connection = Mongo(`mongodb://${mongoHost}:${mongoPort}`);
+        // Updated to handle no authentication
+        let connectionString = `mongodb://${mongoHost}:${mongoPort}`;
+        if (mongoUser && mongoPassword) {
+            connectionString = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
+        }
+        console.log('Connection String: ' + connectionString);
+        connection = Mongo(connectionString);
         break;
     } catch (exception) {
         print(`Cannot connect to mongoDB: ${exception}`);
         print(`Will retry after ${retrySeconds} seconds`);
         console.log('mongoUser' + mongoUser);
         console.log('mongoPassword' + mongoPassword);
-        console.log(`mongodb://${mongoHost}:${mongoPort}`)  
+        console.log(`mongodb://${mongoHost}:${mongoPort}`)
         sleep(retrySeconds * 1000);
     }
 }
@@ -34,7 +40,7 @@ if (databases.includes(database)) {
     const dbInstance = connection.getDB(database)
     collections = dbInstance.getCollectionNames()
     if (collections.includes(collection)) {
-       print(`Collection '${collection}' already exists in database '${database}'`)
+        print(`Collection '${collection}' already exists in database '${database}'`)
         process.exit(0);
     }
 }
