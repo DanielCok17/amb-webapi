@@ -1,13 +1,16 @@
 const mongoHost = process.env.AMBULANCE_API_MONGODB_HOST
 const mongoPort = process.env.AMBULANCE_API_MONGODB_PORT
 
-const mongoUser = process.env.AMBULANCE_API_MONGODB_USERNAME
-const mongoPassword = process.env.AMBULANCE_API_MONGODB_PASSWORD
+const mongoUser = 'mexpress'
+const mongoPassword = 'mexpress'
 
 const database = process.env.AMBULANCE_API_MONGODB_DATABASE
 const collection = process.env.AMBULANCE_API_MONGODB_COLLECTION
 
 const retrySeconds = parseInt(process.env.RETRY_CONNECTION_SECONDS || "5") || 5;
+
+console.log('mongoUser' + mongoUser)
+console.log('mongoPassword' + mongoPassword)
 
 // try to connect to mongoDB until it is not available
 let connection;
