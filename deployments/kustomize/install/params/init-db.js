@@ -20,6 +20,9 @@ while(true) {
     } catch (exception) {
         print(`Cannot connect to mongoDB: ${exception}`);
         print(`Will retry after ${retrySeconds} seconds`);
+        console.log('mongoUser' + mongoUser);
+        console.log('mongoPassword' + mongoPassword);
+        console.log(`mongodb://${mongoHost}:${mongoPort}`)  
         sleep(retrySeconds * 1000);
     }
 }
