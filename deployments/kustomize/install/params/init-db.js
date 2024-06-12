@@ -15,7 +15,7 @@ console.log('mongoPassword' + mongoPassword);
 let connection;
 while(true) {
     try {
-        connection = Mongo(`mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`);
+        connection = Mongo(`mongodb://${mongoHost}:${mongoPort}`);
         break;
     } catch (exception) {
         print(`Cannot connect to mongoDB: ${exception}`);
