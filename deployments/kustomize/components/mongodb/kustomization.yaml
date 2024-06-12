@@ -14,3 +14,10 @@ configMapGenerator:
     - host=mongodb
     - port=27017
 
+secretGenerator:
+- name: mongodb-auth
+  options:
+    disableNameSuffixHash: true
+  literals:
+  - username=admin
+  - password=admin
